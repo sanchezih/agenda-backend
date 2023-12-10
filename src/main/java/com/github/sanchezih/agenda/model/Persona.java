@@ -1,4 +1,4 @@
-package com.github.sanchezih.ownblog.modelo;
+package com.github.sanchezih.agenda.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,8 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "empleados")
-public class Empleado {
+@Table(name = "persona")
+public class Persona {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,12 +24,11 @@ public class Empleado {
 	@Column(name = "email", length = 60, nullable = false, unique = true)
 	private String email;
 
-	public Empleado() {
+	public Persona() {
 
 	}
 
-	public Empleado(Long id, String nombre, String apellido, String email) {
-		super();
+	public Persona(Long id, String nombre, String apellido, String email) {
 		this.id = id;
 		this.nombre = nombre;
 		this.apellido = apellido;

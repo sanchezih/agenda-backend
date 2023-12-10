@@ -1,4 +1,4 @@
-package com.github.sanchezih.ownblog.controller;
+package com.github.sanchezih.agenda.controller;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,59 +16,84 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.sanchezih.ownblog.exception.ResourceNotFoundException;
-import com.github.sanchezih.ownblog.modelo.Empleado;
-import com.github.sanchezih.ownblog.repository.EmpleadoRepositorio;
+import com.github.sanchezih.agenda.exception.ResourceNotFoundException;
+import com.github.sanchezih.agenda.model.Persona;
+import com.github.sanchezih.agenda.repository.PersonaRepository;
 
 @RestController
-@RequestMapping("/api/v1/")
+@RequestMapping("/api/v1/personas")
 @CrossOrigin(origins = "http://localhost:4200")
-public class EmpleadoControlador {
+public class PersonaController {
 
 	@Autowired
-	private EmpleadoRepositorio repositorio;
+	private PersonaRepository personaRepository;
 
-	// este metodo sirve para listar todos los empleados
-	@GetMapping("/empleados")
-	public List<Empleado> listarTodosLosEmpleados() {
-		return repositorio.findAll();
+	/**
+	 * Este metodo sirve para listar todos los empleados
+	 * 
+	 * @return
+	 */
+	@GetMapping
+	public List<Persona> listarTodosLosEmpleados() {
+		return personaRepository.findAll();
 	}
 
-	// este metodo sirve para guardar el empleado
-	@PostMapping("/empleados")
-	public Empleado guardarEmpleado(@RequestBody Empleado empleado) {
-		return repositorio.save(empleado);
+	/**
+	 * Este metodo sirve para guardar el empleado
+	 * 
+	 * @param empleado
+	 * @return
+	 */
+	@PostMapping
+	public Persona guardarEmpleado(@RequestBody Persona empleado) {
+		return personaRepository.save(empleado);
 	}
 
-	// este metodo sirve para buscar un empleado
-	@GetMapping("/empleados/{id}")
-	public ResponseEntity<Empleado> obtenerEmpleadoPorId(@PathVariable Long id) {
-		Empleado empleado = repositorio.findById(id)
+	/**
+	 * Este metodo sirve para buscar un empleado
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@GetMapping("/{id}")
+	public ResponseEntity<Persona> obtenerEmpleadoPorId(@PathVariable Long id) {
+		Persona empleado = personaRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("No existe el empleado con el ID : " + id));
 		return ResponseEntity.ok(empleado);
 	}
 
-	// este metodo sirve para actualizar empleado
-	@PutMapping("/empleados/{id}")
-	public ResponseEntity<Empleado> actualizarEmpleado(@PathVariable Long id, @RequestBody Empleado detallesEmpleado) {
-		Empleado empleado = repositorio.findById(id)
+	/**
+	 * Este metodo sirve para actualizar empleado
+	 * 
+	 * @param id
+	 * @param detallesEmpleado
+	 * @return
+	 */
+	@PutMapping("/{id}")
+	public ResponseEntity<Persona> actualizarEmpleado(@PathVariable Long id, @RequestBody Persona detallesEmpleado) {
+		Persona empleado = personaRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("No existe el empleado con el ID : " + id));
 
 		empleado.setNombre(detallesEmpleado.getNombre());
 		empleado.setApellido(detallesEmpleado.getApellido());
 		empleado.setEmail(detallesEmpleado.getEmail());
 
-		Empleado empleadoActualizado = repositorio.save(empleado);
+		Persona empleadoActualizado = personaRepository.save(empleado);
 		return ResponseEntity.ok(empleadoActualizado);
 	}
 
-	// este metodo sirve para eliminar un empleado
-	@DeleteMapping("/empleados/{id}")
+	/**
+	 * Este metodo sirve para eliminar un empleado
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@DeleteMapping("/{id}")
 	public ResponseEntity<Map<String, Boolean>> eliminarEmpleado(@PathVariable Long id) {
-		Empleado empleado = repositorio.findById(id)
+		Persona empleado = personaRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("No existe el empleado con el ID : " + id));
 
-		repositorio.delete(empleado);
+		personaRepository.delete(empleado);
 		Map<String, Boolean> respuesta = new HashMap<>();
 		respuesta.put("eliminar", Boolean.TRUE);
 		return ResponseEntity.ok(respuesta);

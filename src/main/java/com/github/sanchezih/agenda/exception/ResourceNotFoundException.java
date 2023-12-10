@@ -1,4 +1,4 @@
-package com.github.sanchezih.ownblog.exception;
+package com.github.sanchezih.agenda.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
