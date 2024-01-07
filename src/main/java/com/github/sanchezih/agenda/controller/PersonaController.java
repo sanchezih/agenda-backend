@@ -23,7 +23,7 @@ import com.github.sanchezih.agenda.model.Contacto;
 import com.github.sanchezih.agenda.repository.ContactoRepository;
 
 @RestController
-@RequestMapping("/api/v1/personas")
+@RequestMapping("/v1/contactos")
 @CrossOrigin(origins = "http://localhost:4200")
 public class PersonaController {
 
@@ -36,24 +36,13 @@ public class PersonaController {
 	 * @return
 	 */
 	@GetMapping
-	public ResponseEntity<List<Contacto>> listarTodosLosEmpleados() {
-		List<Contacto> res = personaRepository.findAll();
-		return ResponseEntity.ok(res);
-	}
-
-	/**
-	 * Este metodo sirve para guardar el empleado
-	 * 
-	 * @param contacto
-	 * @return
-	 */
-	@PostMapping
-	public ResponseEntity<Contacto> guardarEmpleado(@RequestBody Contacto contacto) {
-		Contacto nuevoContacto = personaRepository.save(contacto);
-		return ResponseEntity.ok(nuevoContacto);
+	public ResponseEntity<List<Contacto>> getAllContactos() {
+		List<Contacto> contactos = personaRepository.findAll();
+		return ResponseEntity.ok(contactos);
 	}
 
 	
+
 	
 	
 	
@@ -80,6 +69,14 @@ public class PersonaController {
 
 	
 	
+		
+	
+	@PostMapping
+	public ResponseEntity<Contacto> guardarEmpleado(@RequestBody Contacto contacto) {
+		Contacto nuevoContacto = personaRepository.save(contacto);
+		return ResponseEntity.ok(nuevoContacto);
+	}
+
 	
 	
 	
